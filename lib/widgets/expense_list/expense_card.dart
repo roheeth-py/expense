@@ -9,6 +9,7 @@ class ExpenseCard extends StatelessWidget {
   @override
   Widget build(context) {
     return Card(
+      margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -19,8 +20,9 @@ class ExpenseCard extends StatelessWidget {
               children: [
                 Text(expense.price.toStringAsFixed(2)),
                 Spacer(),
-                Icon(Icons.alarm),
-                Text("${expense.date}"),
+                Icon(categoryIcon[expense.category]),
+                SizedBox(width: 5,),
+                Text(expense.formattedDate),
               ],
             ),
           ],

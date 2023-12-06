@@ -3,8 +3,9 @@ import 'package:expense/expenses.dart';
 
 void main(){
   runApp(
-    const MaterialApp(
-      home: ExpenseMain(),
+    MaterialApp(
+      theme: ThemeData(useMaterial3: true),
+      home: const ExpenseMain(),
     ),
   );
 }

@@ -1,3 +1,4 @@
+import 'package:expense/add_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:expense/widgets/expense_list/expenses_list.dart';
 import 'package:expense/model/expenses.dart';
@@ -25,13 +26,31 @@ class _ExpenseMainState extends State<ExpenseMain> {
         price: 200,
         date: DateTime.now(),
     ),
-    Expense(category: Category.work, title: "S", price: 50.5, date: DateTime.now(),
+    Expense(
+      category: Category.leisure,
+      title: "Animal",
+      price: 225,
+      date: DateTime.now(),
     ),
   ];
+
+  void _modalSheet(){
+    showModalBottomSheet(
+        context: context,
+        builder: (ctx)=> const  NewExpense(),
+    );
+  }
   @override
   Widget build(context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("Expense Tracker"),
+        actions: [
+          IconButton(
+              onPressed: _modalSheet,
+              icon: const Icon(Icons.add)),
+        ],
+      ),
       body: Column(
         children: [
           const Text("Chart"),
