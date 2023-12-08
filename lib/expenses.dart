@@ -13,48 +13,72 @@ class ExpenseMain extends StatefulWidget {
 }
 
 class _ExpenseMainState extends State<ExpenseMain> {
-  final List<Expense> _registeredExpenses = [
-    Expense(
-      category: Category.food,
-      title: "Biryani",
-      price: 100,
-      date: DateTime.now(),
-    ),
-    Expense(
-        category: Category.work,
-        title: "petrol",
-        price: 200,
-        date: DateTime.now(),
-    ),
-    Expense(
-      category: Category.leisure,
-      title: "Animal",
-      price: 225,
-      date: DateTime.now(),
-    ),
-  ];
+  final List<Expense> _registeredExpenses = [];
 
-  void _modalSheet(){
+  void _modalSheet() {
     showModalBottomSheet(
-        context: context,
-        builder: (ctx)=> const  NewExpense(),
+      useSafeArea: true,
+      isScrollControlled: true,
+      context: context,
+      builder: (ctx) => NewExpense(_addExpense),
     );
   }
+
+  void _addExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
+  }
+
+  void _removeExpense(Expense expense) {
+    int expenseIndex = _registeredExpenses.indexOf(expense);
+    setState(() {
+      _registeredExpenses.remove(expense);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(seconds: 3),
+        content: const Text("Expense Removed"),
+        action: SnackBarAction(
+            label: "Undo",
+            onPressed: (){
+              setState(() {
+                _registeredExpenses.insert(expenseIndex, expense);
+              });
+            },
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(context) {
+    Widget mainContent = const Center(
+      child: Text("No records found!"),
+    );
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = Expanded(
+        child: ExpensesList(
+          expenses: _registeredExpenses,
+          delExpense: _removeExpense,
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text("Expense Tracker"),
         actions: [
           IconButton(
-              onPressed: _modalSheet,
-              icon: const Icon(Icons.add)),
+            onPressed: _modalSheet,
+            icon: const Icon(Icons.add),
+          ),
         ],
       ),
       body: Column(
         children: [
           const Text("Chart"),
-          Expanded(child: ExpensesList(expenses: _registeredExpenses)),
+          mainContent,
         ],
       ),
     );

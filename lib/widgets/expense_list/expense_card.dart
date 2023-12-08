@@ -9,19 +9,19 @@ class ExpenseCard extends StatelessWidget {
   @override
   Widget build(context) {
     return Card(
-      margin: EdgeInsets.fromLTRB(15, 10, 15, 10),
+      margin: const EdgeInsets.fromLTRB(15, 10, 15, 10),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Text(expense.title),
-            SizedBox(height: 5,),
+            const SizedBox(height: 5,),
             Row(
               children: [
                 Text(expense.price.toStringAsFixed(2)),
-                Spacer(),
+                const Spacer(),
                 Icon(categoryIcon[expense.category]),
-                SizedBox(width: 5,),
+                const SizedBox(width: 5,),
                 Text(expense.formattedDate),
               ],
             ),
